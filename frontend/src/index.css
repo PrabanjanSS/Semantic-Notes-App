@@ -1,0 +1,17 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 30px;
+}
+.app-container { max-width: 1100px; margin: 0 auto; }
+.card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.form-group { margin-bottom: 14px; }
+label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #495057; }
+input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; }
+button { background: #0d6efd; color: #fff; border: none; padding: 10px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+button:hover { background: #0b5ed7; }
+.note-card { background: #fff; border-left: 5px solid #0d6efd; padding: 16px; margin-bottom: 12px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+.badge { background: #e2e3e5; color: #383d41; padding: 4px 8px; font-size: 11px; border-radius: 20px; font-weight: 700; }
+.score-tag { font-size: 11px; color: #155724; background: #d4edda; display: inline-block; padding: 4px 8px; border-radius: 4px; margin-top: 6px; }
+.status-msg { color: #6c757d; font-size: 12px; font-style: italic; }
