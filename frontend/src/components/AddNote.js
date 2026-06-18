@@ -5,22 +5,42 @@ function AddNote({ onNoteAdded }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('Work');
-  const [loading, setLoading] = useState(false);
+  
+  // Status states: 'idle' | 'loading' | 'success' | 'error'
+  const [vectorizeStatus, setVectorizeStatus] = useState('idle');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !content) return;
-    setLoading(true);
+    
+    setVectorizeStatus('loading');
+    
     try {
+      // Keeping your explicit Render API URL unchanged
       await axios.post('https://semantic-notes-app.onrender.com/api/notes', { title, content, category });
+      
+      // Update state to success to change button text and appearance
+      setVectorizeStatus('success');
+      
+      // Clear inputs
       setTitle('');
       setContent('');
       setCategory('Work');
       onNoteAdded();
+
+      // Reset the button back to normal after 4 seconds
+      setTimeout(() => {
+        setVectorizeStatus('idle');
+      }, 4000);
+
     } catch (err) {
       console.error('Error saving matrix document:', err);
-    } finally {
-      setLoading(false);
+      setVectorizeStatus('error');
+      
+      // Reset button on error after 4 seconds so user can try again
+      setTimeout(() => {
+        setVectorizeStatus('idle');
+      }, 4000);
     }
   };
 
@@ -30,6 +50,48 @@ function AddNote({ onNoteAdded }) {
     color: '#f0f4f8',
     marginBottom: '6px',
     fontFamily: "'Plus Jakarta Sans', sans-serif"
+  };
+
+  // Helper function to dynamically change the button text
+  const getButtonText = () => {
+    switch (vectorizeStatus) {
+      case 'loading':
+        return 'VECTORIZING...';
+      case 'success':
+        return '✓ COMPLETED & PUSHED SUCCESSFULLY TO ATLAS!';
+      case 'error':
+        return '❌ ERROR VECTORIZING NOTE';
+      default:
+        return 'VECTORIZE & PUSH TO ATLAS';
+    }
+  };
+
+  // Helper function to handle dynamic button styling based on execution status
+  const getButtonStyle = () => {
+    let baseColor = '#f0f4f8';
+    let textColor = '#0a0c10';
+
+    if (vectorizeStatus === 'success') {
+      baseColor = '#28a745'; // Clean Success Green
+      textColor = '#ffffff';
+    } else if (vectorizeStatus === 'error') {
+      baseColor = '#dc3545'; // Clean Error Red
+      textColor = '#ffffff';
+    }
+
+    return {
+      padding: '12px', 
+      backgroundColor: baseColor, 
+      color: textColor, 
+      border: 'none', 
+      borderRadius: '6px', 
+      cursor: vectorizeStatus === 'loading' ? 'not-allowed' : 'pointer',
+      fontFamily: "'Orbitron', sans-serif",
+      fontWeight: 'bold',
+      letterSpacing: '1px',
+      marginTop: '5px',
+      transition: 'all 0.2s ease'
+    };
   };
 
   return (
@@ -73,24 +135,26 @@ function AddNote({ onNoteAdded }) {
 
       <button 
         type="submit" 
-        disabled={loading}
-        style={{ 
-          padding: '12px', 
-          backgroundColor: '#f0f4f8', 
-          color: '#0a0c10', 
-          border: 'none', 
-          borderRadius: '6px', 
-          cursor: 'pointer',
-          fontFamily: "'Orbitron', sans-serif",
-          fontWeight: 'bold',
-          letterSpacing: '1px',
-          marginTop: '5px',
-          transition: 'all 0.2s ease'
+        disabled={vectorizeStatus === 'loading'}
+        style={getButtonStyle()}
+        onMouseEnter={(e) => {
+          // Only trigger hover effect if button is in normal idle status
+          if (vectorizeStatus === 'idle') {
+            e.target.style.backgroundColor = '#00f2fe';
+          }
         }}
-        onMouseEnter={(e) => e.target.style.backgroundColor = '#00f2fe'}
-        onMouseLeave={(e) => e.target.style.backgroundColor = '#f0f4f8'}
+        onMouseLeave={(e) => {
+          // Reset to correct status color on leave
+          if (vectorizeStatus === 'idle') {
+            e.target.style.backgroundColor = '#f0f4f8';
+          } else if (vectorizeStatus === 'success') {
+            e.target.style.backgroundColor = '#28a745';
+          } else if (vectorizeStatus === 'error') {
+            e.target.style.backgroundColor = '#dc3545';
+          }
+        }}
       >
-        {loading ? 'VECTORIZING...' : 'VECTORIZE & PUSH TO ATLAS'}
+        {getButtonText()}
       </button>
     </form>
   );
