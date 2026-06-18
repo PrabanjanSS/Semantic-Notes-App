@@ -53,8 +53,8 @@ exports.searchNotes = async (req, res) => {
       index: 'vector_index', 
       path: 'embedding',     
       queryVector: queryVector,
-      numCandidates: 100,
-      limit: 10
+      numCandidates: 10,
+      limit: 5
     };
 
     if (category && category !== 'All') {
@@ -94,7 +94,7 @@ exports.searchNotes = async (req, res) => {
       // Base score requirement is 0.80. Unrelated junk (like 0.77 cardio) gets deleted.
       // But if your exact Title or Content matches, it gets +0.30, pushing it well over the line!
       {
-        $match: { finalScore: { $gte: 0.86 } }
+        $match: { finalScore: { $gte: 0.82 } }
       },
       {
         $sort: { finalScore: -1 }
