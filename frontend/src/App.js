@@ -19,7 +19,7 @@ function App() {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent'
         }}>
-          // SEMANTIC.MATRIX_ENGINE v2.0
+          SEMANTIC MATRIX ENGINE
         </h1>
         <p style={{ color: '#6272a4', fontSize: '0.9rem', margin: 0, textTransform: 'uppercase', letterSpacing: '1px' }}>
           Hybrid Vector Isolation Pipeline // Powered by Google Gemini & MongoDB Atlas
