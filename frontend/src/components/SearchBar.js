@@ -13,7 +13,7 @@ function SearchBar({ onSearchResults, onReset }) {
     
     setSearching(true);
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/notes/search`, {
+      const res = await axios.get('https://semantic-notes-app.onrender.com/api/notes/search', {
         params: { query, category, scope }
       });
       onSearchResults(res.data);
