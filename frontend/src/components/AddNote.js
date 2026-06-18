@@ -12,7 +12,7 @@ function AddNote({ onNoteAdded }) {
     if (!title || !content) return;
     setLoading(true);
     try {
-      await axios.post('${import.meta.env.VITE_API_URL}/api/notes', { title, content, category });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/notes`, { title, content, category });
       setTitle('');
       setContent('');
       setCategory('Work');
