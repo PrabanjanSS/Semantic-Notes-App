@@ -22,7 +22,6 @@ app.use('/api/notes', noteRoutes);
 
 const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => console.log(`🚀 Server listening on port ${PORT}`));// 1. ABSOLUTE PATH FIRST: Force environment variables to load before anything else runs
-const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 // 2. NOW import modules and routes
